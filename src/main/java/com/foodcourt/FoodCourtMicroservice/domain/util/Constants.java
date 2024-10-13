@@ -32,4 +32,8 @@ public class Constants {
     public static final String DISH_ALREADY_EXISTS = "Dish already exists in the database";
     public static final String DISH_RESTAURANT_MANDATORY = "Dish restaurant is mandatory";
     public static final String DISH_DOES_NOT_EXISTS = "Dish does not exists in the database";
+    public static final String UNAUTHORIZED_USER = "Unauthorized user";
+    public static final String DISH_NAME_MUST_BE_DIFFERENT = "Dish name must be different";
+    public static final String RESTAURANT_NOT_FOUND = "Restaurant not found";
+    public static final String ROLE_ADMIN = "ADMIN";
 }

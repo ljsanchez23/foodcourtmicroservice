@@ -54,4 +54,28 @@ public class TestConstants {
     public static final String SHOULD_NOT_SAVE_CATEGORY = "Should not save category";
     public static final String SHOULD_UPDATE_DISH_PRICE_AND_DESCRIPTION = "Should update dish price and description";
     public static final Integer DISH_RANDOM_PRICE = 20;
+    public static final Long USER_ID = 1L;
+    public static final String SHOULD_THROW_EXCEPTION_WHEN_NOT_RESTAURANT_OWNER = "Should throw exception when the user" +
+            "is not the restaurant owner.";
+    public static final String SHOULD_THROW_EXCEPTION_WHEN_UPDATING_DISH_NOT_OWNER = "Should throw exception when the " +
+            "dish is not updated by the owner";
+    public static final Integer DISH_NEW_PRICE = 30;
+    public static final String DISH_NEW_DESCRIPTION = "New dish description";
+    public static final String SHOULD_THROW_EXCEPTION_WHEN_DISH_NOT_FOUND = "Dish not found exception";
+    public static final String SHOULD_THROW_EXCEPTION_WHEN_USER_NOT_OWNER = "User is not the owner";
+    public static final Long DIFFERENT_USER_ID = 5L;
+    public static final String SHOULD_NOT_UPDATE_DISH_WHEN_NO_CHANGES = "Should not update when no changes";
+    public static final String SHOULD_THROW_EXCEPTION_WHEN_UNAUTHORIZED_USER = "Unauthorized user";
+    public static final String SHOULD_SAVE_RESTAURANT_WHEN_VALIDATIONS_PASS = "Should save restaurant";
+    public static final String SHOULD_THROW_EXCEPTION_WHEN_RESTAURANT_EXISTS_BY_EIN = "Should throw exception restaurant " +
+            "already exists";
+    public static final String SHOULD_THROW_EXCEPTION_WHEN_RESTAURANT_EXISTS_BY_NAME = "Should throw exception when the " +
+            "name of the restaurant already exists";
+    public static final String SHOULD_THROW_EXCEPTION_WHEN_USER_IS_NOT_OWNER = "Should throw exception when the user is not" +
+            "the owner";
+    public static final String SHOULD_THROW_EXCEPTION_WHEN_USER_NOT_AUTHORIZED = "Unauthorized user exception";
+    public static final String SHOULD_SAVE_CATEGORY_WHEN_VALIDATIONS_PASS = "Should save category";
+    public static final String SHOULD_NOT_SAVE_CATEGORY_WHEN_ALREADY_EXISTS = "Should not save category because it already" +
+            "exists";
+    public static final String SHOULD_NOT_THROW_EXCEPTION_ON_VALID_DISH = "Should not thrown exception on valid dish";
 }

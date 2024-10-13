@@ -28,4 +28,5 @@ public class DishAdapter implements IDishPersistencePort {
     public boolean existsByName(String name){
         return dishRepository.findByName(name).isPresent();
     }
+
 }

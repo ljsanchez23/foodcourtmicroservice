@@ -18,8 +18,11 @@ public class DataInitializer {
         if (!categoryRepository.existsById(DataFactory.DEFAULT_CATEGORY.getId())) {
             categoryRepository.save(DataFactory.DEFAULT_CATEGORY);
         }
-        if (!restaurantRepository.existsById(DataFactory.DEFAULT_RESTAURANT.getId())) {
-            restaurantRepository.save(DataFactory.DEFAULT_RESTAURANT);
+        if (!restaurantRepository.existsById(DataFactory.ADMIN_RESTAURANT.getId())) {
+            restaurantRepository.save(DataFactory.ADMIN_RESTAURANT);
+        }
+        if(!restaurantRepository.existsById(DataFactory.OWNER_RESTAURANT.getId())){
+            restaurantRepository.save(DataFactory.OWNER_RESTAURANT);
         }
     }
 }

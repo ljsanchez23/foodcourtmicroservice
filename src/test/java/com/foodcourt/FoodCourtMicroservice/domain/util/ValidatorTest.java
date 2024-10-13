@@ -93,4 +93,9 @@ class ValidatorTest {
                 () -> Validator.validateDish(validDish));
     }
 
+    @Test
+    @DisplayName(TestConstants.SHOULD_NOT_THROW_EXCEPTION_ON_VALID_DISH)
+    void shouldNotThrowExceptionWhenDishIsValid() {
+        assertDoesNotThrow(() -> Validator.validateDish(validDish));
+    }
 }

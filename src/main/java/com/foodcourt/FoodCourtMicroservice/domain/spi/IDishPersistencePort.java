@@ -8,4 +8,5 @@ public interface IDishPersistencePort {
     void saveDish(Dish dish);
     Optional<Dish> findDishById(Long id);
     boolean existsByName(String name);
+
 }

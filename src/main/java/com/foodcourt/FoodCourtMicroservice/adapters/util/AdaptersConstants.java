@@ -31,4 +31,6 @@ public class AdaptersConstants {
     public static final String UPDATE_DISH_ENDPOINT_DESCRIPTION = "This endpoint is used to update the dish";
     public static final String DISH_UPDATED_DESCRIPTION = "The dish has been updated";
     public static final String UPDATE_DISH_BAD_REQUEST_DESCRIPTION = "When the dish is updated we receive a 204 response";
+    public static final String JWT_MISSING = "JWT token is missing on the request";
+    public static final String USER_ID_FROM_TOKEN = "userId";
 }

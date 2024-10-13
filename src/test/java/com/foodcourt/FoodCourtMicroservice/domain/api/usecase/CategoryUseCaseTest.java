@@ -26,28 +26,27 @@ class CategoryUseCaseTest {
     private CategoryUseCase categoryUseCase;
 
     @Test
-    @DisplayName(TestConstants.SHOULD_NOT_SAVE_CATEGORY)
-    void shouldNotSaveCategoryWhenCategoryAlreadyExists() {
-
+    @DisplayName(TestConstants.SHOULD_SAVE_CATEGORY_WHEN_VALIDATIONS_PASS)
+    void shouldSaveCategoryWhenValidationsPass() {
         Category category = TestDataFactory.createDefaultCategory();
 
-        lenient().when(categoryPersistencePort.findCategoryById(category.getId())).thenReturn(Optional.of(category));
-
-        categoryUseCase.saveCategory(category);
-
-        verify(categoryPersistencePort, never()).saveCategory(category);
-    }
-
-    @Test
-    @DisplayName(TestConstants.SHOULD_SAVE_CATEGORY)
-    void shouldSaveCategoryWhenCategoryDoesNotExist() {
-
-        Category category = TestDataFactory.createDefaultCategory();
-
-        lenient().when(categoryPersistencePort.findCategoryById(category.getId())).thenReturn(Optional.empty());
+        when(categoryPersistencePort.findCategoryById(category.getId())).thenReturn(Optional.empty());
 
         categoryUseCase.saveCategory(category);
 
         verify(categoryPersistencePort).saveCategory(category);
+    }
+
+    @Test
+    @DisplayName(TestConstants.SHOULD_NOT_SAVE_CATEGORY_WHEN_ALREADY_EXISTS)
+    void shouldNotSaveCategoryWhenAlreadyExists() {
+        Category category = TestDataFactory.createDefaultCategory();
+
+        when(categoryPersistencePort.findCategoryById(category.getId()))
+                .thenReturn(Optional.of(category)); // La categoría ya existe
+
+        categoryUseCase.saveCategory(category);
+
+        verify(categoryPersistencePort, never()).saveCategory(any(Category.class)); // No se debería guardar
     }
 }

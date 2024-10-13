@@ -24,4 +24,17 @@ public class TestDataFactory {
     public static Category createDefaultCategory(){
         return new Category(TestConstants.CATEGORY_ID, TestConstants.CATEGORY_NAME, TestConstants.CATEGORY_DESCRIPTION);
     }
+
+    public static Restaurant createRestaurantOwnedBy(Long userId) {
+        return new Restaurant(
+                TestConstants.RESTAURANT_ID,
+                TestConstants.RESTAURANT_NAME,
+                TestConstants.RESTAURANT_EIN,
+                TestConstants.RESTAURANT_ADDRESS,
+                TestConstants.RESTAURANT_PHONE,
+                TestConstants.RESTAURANT_URL_LOGO,
+                userId,  // El propietario del restaurante
+                null
+        );
+    }
 }
