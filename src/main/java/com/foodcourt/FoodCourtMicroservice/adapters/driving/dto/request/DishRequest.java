@@ -9,11 +9,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class RestaurantRequest {
+public class DishRequest {
+    private Long id;
     private String name;
-    private Integer ein;
-    private String address;
-    private String phone;
+    private Integer price;
+    private String description;
     private String urlLogo;
-    private Long userId;
+    private Boolean status;
+    private Long categoryId;
+    private Long restaurantId;
 }

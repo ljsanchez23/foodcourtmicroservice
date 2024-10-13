@@ -35,6 +35,6 @@ public class IRestaurantEntityMapperImpl implements IRestaurantEntityMapper {
         String urlLogo = restaurantEntity.getUrlLogo();
         Long userId = restaurantEntity.getUserId();
 
-        return new Restaurant(id, name, ein, address, phone, urlLogo, userId);
+        return new Restaurant(id, name, ein, address, phone, urlLogo, userId, null);
     }
 }

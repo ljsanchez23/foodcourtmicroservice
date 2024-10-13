@@ -1,10 +1,21 @@
 package com.foodcourt.FoodCourtMicroservice.adapters.driven.jpa.mysql.entity;
 
 import com.foodcourt.FoodCourtMicroservice.adapters.util.AdaptersConstants;
+import com.foodcourt.FoodCourtMicroservice.domain.util.Constants;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Table(name = AdaptersConstants.RESTAURANT_TABLE_NAME)
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class RestaurantEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,72 +32,6 @@ public class RestaurantEntity {
     private String urlLogo;
     @Column(nullable = false)
     private Long userId;
-
-    public RestaurantEntity(Long id, String name, Integer ein, String address, String phone, String urlLogo, Long userId) {
-        this.id = id;
-        this.name = name;
-        this.ein = ein;
-        this.address = address;
-        this.phone = phone;
-        this.urlLogo = urlLogo;
-        this.userId = userId;
-    }
-
-    public RestaurantEntity(){}
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getEin() {
-        return ein;
-    }
-
-    public void setEin(Integer ein) {
-        this.ein = ein;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getUrlLogo() {
-        return urlLogo;
-    }
-
-    public void setUrlLogo(String urlLogo) {
-        this.urlLogo = urlLogo;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+    @OneToMany(mappedBy = AdaptersConstants.RESTAURANT_DISH_RELATION, cascade = CascadeType.ALL)
+    private List<DishEntity> dishes;
 }

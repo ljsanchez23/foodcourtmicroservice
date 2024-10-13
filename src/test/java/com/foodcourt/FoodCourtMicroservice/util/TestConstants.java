@@ -32,4 +32,24 @@ public class TestConstants {
     public static final int INVALID_EIN = -1;
     public static final String INVALID_NAME = "11111111111";
 
+    public static final Long DISH_ID = 1L;
+    public static final String DISH_NAME = "Pasta Bolognese";
+    public static final Integer DISH_PRICE = 15;
+    public static final String DISH_DESCRIPTION = "Delicious pasta with Bolognese sauce";
+    public static final String DISH_URL_LOGO = "https://example.com/images/pasta-bolognese.jpg";
+    public static final Boolean DISH_STATUS = true;
+    public static final Long CATEGORY_ID = 1L;
+    public static final Long DISH_RESTAURANT_ID = 1L;
+
+    public static final String CATEGORY_NAME = "Testing";
+    public static final String CATEGORY_DESCRIPTION = "This is for testing";
+    public static final Integer INVALID_PRICE = -1;
+    public static final String INVALID_PRICE_EXCEPTION = "Invalid price exception";
+    public static final String DEFAULT_DISH_NAME = "Pasta Bolognese";
+    public static final String SHOULD_SAVE_DISH = "Should save dish";
+    public static final String SHOULD_THROW_EXCEPTION_WHEN_DISH_EXISTS = "Should throw exception when dish exists";
+    public static final String SHOULD_SET_STATUS = "Should set status true when null is false";
+    public static final String DISH_STATUS_MESSAGE = "The status should be set to true if it's null";
+    public static final String SHOULD_SAVE_CATEGORY = "Should save category";
+    public static final String SHOULD_NOT_SAVE_CATEGORY = "Should not save category";
 }

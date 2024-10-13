@@ -20,6 +20,6 @@ public class IRestaurantRequestMapperImpl implements IRestaurantRequestMapper {
         String urlLogo = restaurantRequest.getUrlLogo();
         Long userId = restaurantRequest.getUserId();
 
-        return new Restaurant(id, name, ein, address, phone, urlLogo, userId);
+        return new Restaurant(id, name, ein, address, phone, urlLogo, userId, null);
     }
 }

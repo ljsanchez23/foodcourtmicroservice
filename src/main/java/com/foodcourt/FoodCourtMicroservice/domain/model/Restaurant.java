@@ -1,5 +1,7 @@
 package com.foodcourt.FoodCourtMicroservice.domain.model;
 
+import java.util.List;
+
 public class Restaurant {
     private Long id;
     private String name;
@@ -8,8 +10,9 @@ public class Restaurant {
     private String phone;
     private String urlLogo;
     private Long userId;
+    private List<Dish> dishes;
 
-    public Restaurant(Long id, String name, Integer ein, String address, String phone, String urlLogo, Long userId) {
+    public Restaurant(Long id, String name, Integer ein, String address, String phone, String urlLogo, Long userId, List<Dish> dishes) {
         this.id = id;
         this.name = name;
         this.ein = ein;
@@ -17,7 +20,9 @@ public class Restaurant {
         this.phone = phone;
         this.urlLogo = urlLogo;
         this.userId = userId;
+        this.dishes = dishes;
     }
+    public Restaurant(){}
 
     public Long getId() {
         return id;
@@ -25,10 +30,6 @@ public class Restaurant {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public void setEin(Integer ein) {
-        this.ein = ein;
     }
 
     public String getName() {
@@ -41,6 +42,10 @@ public class Restaurant {
 
     public Integer getEin() {
         return ein;
+    }
+
+    public void setEin(Integer ein) {
+        this.ein = ein;
     }
 
     public String getAddress() {
@@ -73,5 +78,13 @@ public class Restaurant {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public List<Dish> getDishes() {
+        return dishes;
+    }
+
+    public void setDishes(List<Dish> dishes) {
+        this.dishes = dishes;
     }
 }

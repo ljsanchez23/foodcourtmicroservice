@@ -14,4 +14,15 @@ public class AdaptersConstants {
     public static final String BAD_REQUEST_DESCRIPTION = "The restaurant has not been successfully created";
     public static final String SAVE_RESTAURANT_ENDPOINT_SUMMARY = "Save the restaurant in the database";
     public static final String SAVE_RESTAURANT_ENDPOINT_DESCRIPTION = "This endpoint saves the restaurant in the database";
+    public static final String CATEGORY_TABLE_NAME = "category";
+    public static final String DISH_TABLE_NAME = "dish";
+    public static final String DISH_CATEGORY_JOIN_COLUMN = "category_id";
+    public static final String DISH_CONTROLLER_URL = "/dish";
+    public static final String RESTAURANT_DISH_RELATION = "restaurant";
+    public static final String DISH_RESTAURANT_JOIN_COLUMN = "restaurant_id";
+
+    public static final String DISH_CREATED_DESCRIPTION = "The dish has been successfully created";
+    public static final String DISH_BAD_REQUEST_DESCRIPTION = "The dish has not been successfully created";
+    public static final String SAVE_DISH_ENDPOINT_SUMMARY = "Save the dish in the database";
+    public static final String SAVE_DISH_ENDPOINT_DESCRIPTION = "This endpoint saves the dish in the database";
 }

@@ -1,8 +1,6 @@
 package com.foodcourt.FoodCourtMicroservice.domain.util;
-import com.foodcourt.FoodCourtMicroservice.domain.exception.InvalidEinException;
-import com.foodcourt.FoodCourtMicroservice.domain.exception.InvalidNameException;
-import com.foodcourt.FoodCourtMicroservice.domain.exception.InvalidPhoneException;
-import com.foodcourt.FoodCourtMicroservice.domain.exception.MandatoryFieldException;
+import com.foodcourt.FoodCourtMicroservice.domain.exception.*;
+import com.foodcourt.FoodCourtMicroservice.domain.model.Dish;
 import com.foodcourt.FoodCourtMicroservice.domain.model.Restaurant;
 import com.foodcourt.FoodCourtMicroservice.util.TestConstants;
 import com.foodcourt.FoodCourtMicroservice.util.TestDataFactory;
@@ -18,10 +16,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class ValidatorTest {
 
     private Restaurant validRestaurant;
+    private Dish validDish;
 
     @BeforeEach
     void setUp() {
         validRestaurant = TestDataFactory.createDefaultRestaurant();
+        validDish = TestDataFactory.createDefaultDish();
     }
 
     @Test
@@ -83,4 +83,14 @@ class ValidatorTest {
     void shouldNotThrowExceptionWhenAllFieldsAreValid() {
         assertDoesNotThrow(() -> Validator.validateRestaurant(validRestaurant));
     }
+
+    @Test
+    @DisplayName(TestConstants.INVALID_PRICE_EXCEPTION)
+    void shouldThrowExceptionWhenPriceIsInvalid(){
+        validDish.setPrice(TestConstants.INVALID_PRICE);
+
+        assertThrows(InvalidPriceException.class,
+                () -> Validator.validateDish(validDish));
+    }
+
 }
