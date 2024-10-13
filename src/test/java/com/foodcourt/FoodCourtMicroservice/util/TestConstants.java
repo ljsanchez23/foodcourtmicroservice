@@ -52,4 +52,6 @@ public class TestConstants {
     public static final String DISH_STATUS_MESSAGE = "The status should be set to true if it's null";
     public static final String SHOULD_SAVE_CATEGORY = "Should save category";
     public static final String SHOULD_NOT_SAVE_CATEGORY = "Should not save category";
+    public static final String SHOULD_UPDATE_DISH_PRICE_AND_DESCRIPTION = "Should update dish price and description";
+    public static final Integer DISH_RANDOM_PRICE = 20;
 }

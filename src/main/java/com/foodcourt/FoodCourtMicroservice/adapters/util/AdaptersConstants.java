@@ -25,4 +25,10 @@ public class AdaptersConstants {
     public static final String DISH_BAD_REQUEST_DESCRIPTION = "The dish has not been successfully created";
     public static final String SAVE_DISH_ENDPOINT_SUMMARY = "Save the dish in the database";
     public static final String SAVE_DISH_ENDPOINT_DESCRIPTION = "This endpoint saves the dish in the database";
+    public static final String UPDATE_DISH_ENDPOINT = "/{dishId}";
+    public static final String UPDATE_DISH_ENDPOINT_SUMMARY = "Updates the dish in the database";
+    public static final String UPDATED_NON_CONTENT = "204";
+    public static final String UPDATE_DISH_ENDPOINT_DESCRIPTION = "This endpoint is used to update the dish";
+    public static final String DISH_UPDATED_DESCRIPTION = "The dish has been updated";
+    public static final String UPDATE_DISH_BAD_REQUEST_DESCRIPTION = "When the dish is updated we receive a 204 response";
 }

@@ -9,12 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class DishRequest {
-    private String name;
+public class UpdateDishRequest {
     private Integer price;
     private String description;
-    private String urlLogo;
-    private Boolean status;
-    private Long categoryId;
-    private Long restaurantId;
 }

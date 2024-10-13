@@ -25,7 +25,7 @@ public class DishEntity {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = AdaptersConstants.DISH_CATEGORY_JOIN_COLUMN, nullable = false)
     private CategoryEntity category;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = AdaptersConstants.DISH_RESTAURANT_JOIN_COLUMN, nullable = false)
     private RestaurantEntity restaurant;
 }

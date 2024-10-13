@@ -2,22 +2,21 @@ package com.foodcourt.FoodCourtMicroservice.domain.api.usecase;
 
 import com.foodcourt.FoodCourtMicroservice.domain.api.impl.DishUseCase;
 import com.foodcourt.FoodCourtMicroservice.domain.exception.DishAlreadyExistsException;
-import com.foodcourt.FoodCourtMicroservice.domain.model.Category;
 import com.foodcourt.FoodCourtMicroservice.domain.model.Dish;
-import com.foodcourt.FoodCourtMicroservice.domain.model.Restaurant;
 import com.foodcourt.FoodCourtMicroservice.domain.spi.IDishPersistencePort;
 import com.foodcourt.FoodCourtMicroservice.domain.util.Constants;
+import com.foodcourt.FoodCourtMicroservice.domain.util.UpdateDish;
 import com.foodcourt.FoodCourtMicroservice.util.TestConstants;
 import com.foodcourt.FoodCourtMicroservice.util.TestDataFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import com.foodcourt.FoodCourtMicroservice.domain.util.Validator;
+
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -79,4 +78,20 @@ class DishUseCaseTest {
         verify(dishPersistencePort).saveDish(dish);
     }
 
+    @Test
+    @DisplayName(TestConstants.SHOULD_UPDATE_DISH_PRICE_AND_DESCRIPTION)
+    void shouldUpdateDishPriceAndDescription() {
+        Long dishId = TestConstants.DISH_ID;
+        Dish dish = TestDataFactory.createDefaultDish();
+        UpdateDish updateDish = new UpdateDish();
+        updateDish.setPrice(TestConstants.DISH_RANDOM_PRICE);
+        updateDish.setDescription(TestConstants.DISH_DESCRIPTION);
+
+        when(dishPersistencePort.findDishById(dishId)).thenReturn(Optional.of(dish));
+
+        dishUseCase.updateDish(dishId, updateDish);
+        assertEquals(TestConstants.DISH_RANDOM_PRICE, dish.getPrice());
+        assertEquals(TestConstants.DISH_DESCRIPTION, dish.getDescription());
+        verify(dishPersistencePort).saveDish(dish);
+    }
 }

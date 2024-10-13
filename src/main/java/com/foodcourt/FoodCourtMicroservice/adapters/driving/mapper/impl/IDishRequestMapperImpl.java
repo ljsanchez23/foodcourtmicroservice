@@ -13,7 +13,6 @@ public class IDishRequestMapperImpl implements IDishRequestMapper {
         if(dishRequest == null){
             return null;
         }
-        Long id = dishRequest.getId();
         String name = dishRequest.getName();
         Integer price = dishRequest.getPrice();
         String description = dishRequest.getDescription();
@@ -23,7 +22,6 @@ public class IDishRequestMapperImpl implements IDishRequestMapper {
         Boolean status = dishRequest.getStatus();
 
         Dish dish = new Dish();
-        dish.setId(id);
         dish.setName(name);
         dish.setPrice(price);
         dish.setDescription(description);
