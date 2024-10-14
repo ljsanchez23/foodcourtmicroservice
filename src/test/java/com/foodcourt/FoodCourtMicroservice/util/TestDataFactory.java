@@ -6,6 +6,7 @@ import com.foodcourt.FoodCourtMicroservice.domain.model.Restaurant;
 import com.foodcourt.FoodCourtMicroservice.domain.util.PagedResult;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class TestDataFactory {
@@ -56,4 +57,35 @@ public class TestDataFactory {
         );
     }
 
+    public static PagedResult<Dish> createPagedResultDishes() {
+        List<Dish> dishList = Arrays.asList(
+                new Dish(1L, "Dish 1", 100, "Delicious Dish 1", "https://example.com/dish1.png", true, TestConstants.CATEGORY_ID, TestConstants.RESTAURANT_ID),
+                new Dish(2L, "Dish 2", 200, "Delicious Dish 2", "https://example.com/dish2.png", true, TestConstants.CATEGORY_ID, TestConstants.RESTAURANT_ID)
+        );
+
+        return new PagedResult<>(
+                dishList,
+                0,
+                10,
+                dishList.size()
+        );
+    }
+
+    // Crear una lista de platos sin paginación
+    public static List<Dish> createDishList() {
+        return Arrays.asList(
+                new Dish(1L, "Dish 1", 100, "Delicious Dish 1", "https://example.com/dish1.png", true, TestConstants.CATEGORY_ID, TestConstants.RESTAURANT_ID),
+                new Dish(2L, "Dish 2", 200, "Delicious Dish 2", "https://example.com/dish2.png", true, TestConstants.CATEGORY_ID, TestConstants.RESTAURANT_ID)
+        );
+    }
+
+    // Crear un PagedResult vacío
+    public static PagedResult<Dish> createEmptyPagedResultDishes() {
+        return new PagedResult<>(
+                Collections.emptyList(),
+                0,
+                10,
+                0
+        );
+    }
 }

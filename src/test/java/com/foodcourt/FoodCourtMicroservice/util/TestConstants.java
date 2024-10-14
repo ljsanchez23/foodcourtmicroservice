@@ -83,4 +83,7 @@ public class TestConstants {
     public static final String SHOULD_THROW_EXCEPTION_WHEN_DISH_IS_FROM_OTHER_RESTAURANT = "Should throw exception when dish belongs to a different restaurant";
     public static final String SHOULD_THROW_EXCEPTION_WHEN_STATUS_IS_THE_SAME = "Should throw exception when the new status is the same as the current status";
     public static final String SHOULD_LIST_RESTAURANTS = "Should list restaurants with default pagination when page and size are null";
+    public static final String SHOULD_LIST_DISHES_BY_RESTAURANT = "Should list dishes by restaurant without category filter";
+    public static final String SHOULD_LIST_DISHES_FILTERED = "Should list dishes by restaurant with category filter";
+    public static final String SHOULD_THROW_EXCEPTION_CATEGORY_DOES_NOT_EXISTS = "Should throw CategoryDoesNotExistsException when category does not exist";
 }

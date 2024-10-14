@@ -4,22 +4,22 @@ import com.foodcourt.FoodCourtMicroservice.domain.api.IDishServicePort;
 import com.foodcourt.FoodCourtMicroservice.domain.exception.*;
 import com.foodcourt.FoodCourtMicroservice.domain.model.Dish;
 import com.foodcourt.FoodCourtMicroservice.domain.model.Restaurant;
+import com.foodcourt.FoodCourtMicroservice.domain.spi.ICategoryPersistencePort;
 import com.foodcourt.FoodCourtMicroservice.domain.spi.IDishPersistencePort;
 import com.foodcourt.FoodCourtMicroservice.domain.spi.IRestaurantPersistencePort;
-import com.foodcourt.FoodCourtMicroservice.domain.util.Constants;
-import com.foodcourt.FoodCourtMicroservice.domain.util.UpdateDishStatus;
-import com.foodcourt.FoodCourtMicroservice.domain.util.UpdateDish;
-import com.foodcourt.FoodCourtMicroservice.domain.util.Validator;
+import com.foodcourt.FoodCourtMicroservice.domain.util.*;
 
 import java.util.Objects;
 
 public class DishUseCase implements IDishServicePort {
     private final IDishPersistencePort dishPersistencePort;
     private final IRestaurantPersistencePort restaurantPersistencePort;
+    private final ICategoryPersistencePort categoryPersistencePort;
 
-    public DishUseCase(IDishPersistencePort dishPersistencePort, IRestaurantPersistencePort restaurantPersistencePort) {
+    public DishUseCase(IDishPersistencePort dishPersistencePort, IRestaurantPersistencePort restaurantPersistencePort, ICategoryPersistencePort categoryPersistencePort) {
         this.dishPersistencePort = dishPersistencePort;
         this.restaurantPersistencePort = restaurantPersistencePort;
+        this.categoryPersistencePort = categoryPersistencePort;
     }
 
     @Override
@@ -75,6 +75,21 @@ public class DishUseCase implements IDishServicePort {
         }
         dish.setStatus(updateDishStatus.isNewStatus());
         dishPersistencePort.saveDish(dish);
+    }
+
+    @Override
+    public PagedResult<Dish> listDishes(Long restaurantId, Integer page, Integer size, Long categoryId) {
+        int actualPage = (page != null) ? page : Constants.DEFAULT_PAGE;
+        int actualSize = (size != null) ? size : Constants.DEFAULT_SIZE;
+
+        if (categoryId != null) {
+            if (!categoryPersistencePort.existsById(categoryId)) {
+                throw new CategoryDoesNotExistsException(Constants.CATEGORY_DOES_NOT_EXIST);
+            }
+            return dishPersistencePort.findDishesByRestaurantAndCategory(restaurantId, categoryId, actualPage, actualSize);
+        } else {
+            return dishPersistencePort.findDishesByRestaurant(restaurantId, actualPage, actualSize);
+        }
     }
 
     protected void validateDishExists(Dish dish) {

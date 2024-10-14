@@ -47,4 +47,12 @@ public class AdaptersConstants {
             "response code";
     public static final String GET_ALL_RESTAURANTS_BAD_REQUEST_DESCRIPTION = "If the request does not go through you'll receive a" +
             "400";
+    public static final String GET_ALL_DISHES_ENDPOINT = "/restaurant/{restaurantId}";
+    public static final String GET_ALL_DISHES_ENDPOINT_SUMMARY = "Get all dishes";
+
+    public static final String GET_ALL_DISHES_ENDPOINT_DESCRIPTION = "This endpoint can be used to get all the dishes";
+    public static final String GET_ALL_DISHES_OK_DESCRIPTION = "If you get the dishes you'll receive a 200 response code";
+    public static final String GET_ALL_DISHES_BAD_REQUEST_DESCRIPTION = "If you don't get the dishes you'll receive a 400 response" +
+            "code";
+
 }

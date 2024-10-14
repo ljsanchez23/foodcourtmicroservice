@@ -215,6 +215,21 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(CategoryDoesNotExistsException.class)
+    public ResponseEntity<ErrorResponse> handleCategoryDoesNotExistsException(CategoryDoesNotExistsException ex){
+        HttpServletRequest request = getCurrentHttpRequest();
+        String requestUri = (request != null) ? request.getRequestURI() : ConfigurationConstants.DEFAULT_PATH;
+
+        ErrorResponse errorResponse = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                ConfigurationConstants.BAD_REQUEST,
+                ex.getMessage(),
+                requestUri
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
 
     private HttpServletRequest getCurrentHttpRequest() {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();

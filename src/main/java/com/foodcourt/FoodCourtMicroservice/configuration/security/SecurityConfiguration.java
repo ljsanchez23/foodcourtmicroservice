@@ -30,7 +30,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(SecurityConstants.RESTAURANT_URL).hasAnyRole(SecurityConstants.ADMIN_ROLE,
                                 SecurityConstants.CUSTOMER_ROLE)
-                        .requestMatchers(SecurityConstants.CREATE_DISH_URL).hasRole(SecurityConstants.OWNER_ROLE)
+                        .requestMatchers(SecurityConstants.CREATE_DISH_URL).hasAnyRole(SecurityConstants.OWNER_ROLE,
+                                SecurityConstants.CUSTOMER_ROLE)
                         .requestMatchers(SecurityConstants.UPDATE_DISH_URL).hasRole(SecurityConstants.OWNER_ROLE)
                         .requestMatchers(SecurityConstants.UPDATE_DISH_STATUS_URL).hasRole(SecurityConstants.OWNER_ROLE)
                         .anyRequest().permitAll()

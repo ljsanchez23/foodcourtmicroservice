@@ -24,4 +24,9 @@ public class CategoryAdapter implements ICategoryPersistencePort {
         return categoryRepository.findCategoryById(id)
                 .map(categoryEntityMapper::toModel);
     }
+
+    @Override
+    public boolean existsById(Long id){
+        return categoryRepository.existsById(id);
+    }
 }

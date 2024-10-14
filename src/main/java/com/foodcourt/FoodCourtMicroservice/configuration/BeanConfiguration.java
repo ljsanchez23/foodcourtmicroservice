@@ -7,6 +7,7 @@ import com.foodcourt.FoodCourtMicroservice.adapters.driven.jpa.mysql.adapter.Dis
 import com.foodcourt.FoodCourtMicroservice.adapters.driven.jpa.mysql.adapter.RestaurantAdapter;
 import com.foodcourt.FoodCourtMicroservice.adapters.driven.jpa.mysql.mapper.ICategoryEntityMapper;
 import com.foodcourt.FoodCourtMicroservice.adapters.driven.jpa.mysql.mapper.IDishEntityMapper;
+import com.foodcourt.FoodCourtMicroservice.adapters.driven.jpa.mysql.mapper.IPagedResultMapper;
 import com.foodcourt.FoodCourtMicroservice.adapters.driven.jpa.mysql.mapper.IRestaurantEntityMapper;
 import com.foodcourt.FoodCourtMicroservice.adapters.driven.jpa.mysql.repository.ICategoryRepository;
 import com.foodcourt.FoodCourtMicroservice.adapters.driven.jpa.mysql.repository.IDishRepository;
@@ -33,8 +34,9 @@ public class BeanConfiguration {
     private final IDishEntityMapper dishEntityMapper;
     private final ICategoryRepository categoryRepository;
     private final ICategoryEntityMapper categoryEntityMapper;
+    private final IPagedResultMapper pagedResultMapper;
 
-    public BeanConfiguration(IUserFeignClient userFeignClient, IRestaurantRepository restaurantRepository, IRestaurantEntityMapper restaurantEntityMapper, IDishRepository dishRepository, IDishEntityMapper dishEntityMapper, ICategoryRepository categoryRepository, ICategoryEntityMapper categoryEntityMapper) {
+    public BeanConfiguration(IUserFeignClient userFeignClient, IRestaurantRepository restaurantRepository, IRestaurantEntityMapper restaurantEntityMapper, IDishRepository dishRepository, IDishEntityMapper dishEntityMapper, ICategoryRepository categoryRepository, ICategoryEntityMapper categoryEntityMapper, IPagedResultMapper pagedResultMapper) {
         this.userFeignClient = userFeignClient;
         this.restaurantRepository = restaurantRepository;
         this.restaurantEntityMapper = restaurantEntityMapper;
@@ -42,6 +44,7 @@ public class BeanConfiguration {
         this.dishEntityMapper = dishEntityMapper;
         this.categoryRepository = categoryRepository;
         this.categoryEntityMapper = categoryEntityMapper;
+        this.pagedResultMapper = pagedResultMapper;
     }
 
     @Bean
@@ -61,12 +64,12 @@ public class BeanConfiguration {
 
     @Bean
     public IDishPersistencePort dishPersistencePort(){
-        return new DishAdapter(dishRepository, dishEntityMapper);
+        return new DishAdapter(dishRepository, dishEntityMapper, pagedResultMapper);
     }
 
     @Bean
     public IDishServicePort dishServicePort(){
-        return new DishUseCase(dishPersistencePort(), restaurantPersistencePort());
+        return new DishUseCase(dishPersistencePort(), restaurantPersistencePort(), categoryPersistencePort());
     }
 
     @Bean

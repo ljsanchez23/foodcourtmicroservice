@@ -1,14 +1,13 @@
 package com.foodcourt.FoodCourtMicroservice.domain.api.usecase;
 
 import com.foodcourt.FoodCourtMicroservice.domain.api.impl.DishUseCase;
-import com.foodcourt.FoodCourtMicroservice.domain.exception.DishAlreadyExistsException;
-import com.foodcourt.FoodCourtMicroservice.domain.exception.DishDoesNotExistsException;
-import com.foodcourt.FoodCourtMicroservice.domain.exception.StatusMustBeDifferentException;
-import com.foodcourt.FoodCourtMicroservice.domain.exception.UnauthorizedUserException;
+import com.foodcourt.FoodCourtMicroservice.domain.exception.*;
 import com.foodcourt.FoodCourtMicroservice.domain.model.Dish;
+import com.foodcourt.FoodCourtMicroservice.domain.spi.ICategoryPersistencePort;
 import com.foodcourt.FoodCourtMicroservice.domain.spi.IDishPersistencePort;
 import com.foodcourt.FoodCourtMicroservice.domain.spi.IRestaurantPersistencePort;
 import com.foodcourt.FoodCourtMicroservice.domain.util.Constants;
+import com.foodcourt.FoodCourtMicroservice.domain.util.PagedResult;
 import com.foodcourt.FoodCourtMicroservice.domain.util.UpdateDish;
 import com.foodcourt.FoodCourtMicroservice.domain.util.UpdateDishStatus;
 import com.foodcourt.FoodCourtMicroservice.util.TestConstants;
@@ -34,6 +33,9 @@ class DishUseCaseTest {
 
     @Mock
     private IRestaurantPersistencePort restaurantPersistencePort;
+
+    @Mock
+    private ICategoryPersistencePort categoryPersistencePort;
 
     @InjectMocks
     private DishUseCase dishUseCase;
@@ -284,5 +286,66 @@ class DishUseCaseTest {
 
         assertEquals(Constants.STATUS_MUST_BE_DIFFERENT_ERROR_MESSAGE, thrown.getMessage());
         verify(dishPersistencePort, never()).saveDish(dish);
+    }
+
+    @Test
+    @DisplayName(TestConstants.SHOULD_LIST_DISHES_BY_RESTAURANT)
+    void shouldListDishesByRestaurantWithoutCategoryFilter() {
+        Long restaurantId = TestConstants.RESTAURANT_ID;
+        int page = Constants.DEFAULT_PAGE;
+        int size = Constants.DEFAULT_SIZE;
+
+        PagedResult<Dish> expectedDishes = TestDataFactory.createPagedResultDishes();
+
+        when(dishPersistencePort.findDishesByRestaurant(restaurantId, page, size))
+                .thenReturn(expectedDishes);
+
+        PagedResult<Dish> actualDishes = dishUseCase.listDishes(restaurantId, page, size, null);
+
+        assertEquals(expectedDishes, actualDishes);
+        verify(dishPersistencePort).findDishesByRestaurant(restaurantId, page, size);
+        verify(categoryPersistencePort, never()).existsById(anyLong());
+    }
+
+    @Test
+    @DisplayName(TestConstants.SHOULD_LIST_DISHES_FILTERED)
+    void shouldListDishesByRestaurantWithCategoryFilter() {
+        Long restaurantId = TestConstants.RESTAURANT_ID;
+        Long categoryId = TestConstants.CATEGORY_ID;
+        int page = Constants.DEFAULT_PAGE;
+        int size = Constants.DEFAULT_SIZE;
+
+        PagedResult<Dish> expectedDishes = TestDataFactory.createPagedResultDishes();
+
+        when(categoryPersistencePort.existsById(categoryId)).thenReturn(true);
+        when(dishPersistencePort.findDishesByRestaurantAndCategory(restaurantId, categoryId, page, size))
+                .thenReturn(expectedDishes);
+
+        PagedResult<Dish> actualDishes = dishUseCase.listDishes(restaurantId, page, size, categoryId);
+
+        assertEquals(expectedDishes, actualDishes);
+        verify(categoryPersistencePort).existsById(categoryId);
+        verify(dishPersistencePort).findDishesByRestaurantAndCategory(restaurantId, categoryId, page, size);
+    }
+
+    @Test
+    @DisplayName(TestConstants.SHOULD_THROW_EXCEPTION_CATEGORY_DOES_NOT_EXISTS)
+    void shouldThrowCategoryDoesNotExistsExceptionWhenCategoryDoesNotExist() {
+        Long restaurantId = TestConstants.RESTAURANT_ID;
+        Long categoryId = TestConstants.CATEGORY_ID;
+        int page = Constants.DEFAULT_PAGE;
+        int size = Constants.DEFAULT_SIZE;
+
+        when(categoryPersistencePort.existsById(categoryId)).thenReturn(false);
+
+        CategoryDoesNotExistsException thrown = assertThrows(
+                CategoryDoesNotExistsException.class,
+                () -> dishUseCase.listDishes(restaurantId, page, size, categoryId)
+        );
+
+        assertEquals(Constants.CATEGORY_DOES_NOT_EXIST, thrown.getMessage());
+        verify(categoryPersistencePort).existsById(categoryId);
+        verify(dishPersistencePort, never()).findDishesByRestaurantAndCategory(anyLong(), anyLong(), anyInt(), anyInt());
+        verify(dishPersistencePort, never()).findDishesByRestaurant(anyLong(), anyInt(), anyInt());
     }
 }

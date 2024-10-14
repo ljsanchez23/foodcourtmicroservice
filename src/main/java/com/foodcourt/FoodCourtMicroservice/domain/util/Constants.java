@@ -39,4 +39,5 @@ public class Constants {
     public static final String STATUS_MUST_BE_DIFFERENT_ERROR_MESSAGE = "Status must be different error message";
     public static final int DEFAULT_PAGE = 1;
     public static final int DEFAULT_SIZE = 10;
+    public static final String CATEGORY_DOES_NOT_EXIST = "Category does not exists";
 }
