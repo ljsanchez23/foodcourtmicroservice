@@ -40,4 +40,11 @@ public class AdaptersConstants {
     public static final String DISH_STATUS_UPDATED_DESCRIPTION = "If the status is updated you'll receive a 204 response" +
             "code";
     public static final String UPDATE_DISH_STATUS_BAD_REQUEST_DESCRIPTION = "If the status is not updated a 400 will be given";
+    public static final String OK = "200";
+    public static final String GET_ALL_RESTAURANTS_ENDPOINT_SUMMARY = "Endpoint to get a paginated list of restaurants";
+    public static final String GET_ALL_RESTAURANTS_ENDPOINT_DESCRIPTION = "Through this endpoint you'll see all the restaurants";
+    public static final String GET_ALL_RESTAURANTS_OK_DESCRIPTION = "If the request goes through you'll receive a 200 " +
+            "response code";
+    public static final String GET_ALL_RESTAURANTS_BAD_REQUEST_DESCRIPTION = "If the request does not go through you'll receive a" +
+            "400";
 }

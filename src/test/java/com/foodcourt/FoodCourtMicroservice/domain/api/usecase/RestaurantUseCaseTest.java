@@ -8,6 +8,7 @@ import com.foodcourt.FoodCourtMicroservice.domain.model.Restaurant;
 import com.foodcourt.FoodCourtMicroservice.domain.spi.IRestaurantPersistencePort;
 import com.foodcourt.FoodCourtMicroservice.domain.spi.IUserPersistencePort;
 import com.foodcourt.FoodCourtMicroservice.domain.util.Constants;
+import com.foodcourt.FoodCourtMicroservice.domain.util.PagedResult;
 import com.foodcourt.FoodCourtMicroservice.util.TestConstants;
 import com.foodcourt.FoodCourtMicroservice.util.TestDataFactory;
 import org.junit.jupiter.api.DisplayName;
@@ -123,5 +124,22 @@ class RestaurantUseCaseTest {
 
         assertEquals(Constants.UNAUTHORIZED_USER, thrown.getMessage());
         verify(restaurantPersistencePort, never()).saveRestaurant(any(Restaurant.class));
+    }
+
+    @Test
+    @DisplayName(TestConstants.SHOULD_LIST_RESTAURANTS)
+    void shouldListRestaurantsWithDefaultPagination() {
+
+        int defaultPage = Constants.DEFAULT_PAGE;
+        int defaultSize = Constants.DEFAULT_SIZE;
+        PagedResult<Restaurant> pagedResult = TestDataFactory.createPagedRestaurants();
+
+        when(restaurantPersistencePort.getAllRestaurants(defaultPage, defaultSize))
+                .thenReturn(pagedResult);
+
+        PagedResult<Restaurant> result = restaurantUseCase.listRestaurants(null, null);
+
+        assertEquals(pagedResult, result);
+        verify(restaurantPersistencePort).getAllRestaurants(defaultPage, defaultSize);
     }
 }

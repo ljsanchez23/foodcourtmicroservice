@@ -37,4 +37,6 @@ public class Constants {
     public static final String RESTAURANT_NOT_FOUND = "Restaurant not found";
     public static final String ROLE_ADMIN = "ADMIN";
     public static final String STATUS_MUST_BE_DIFFERENT_ERROR_MESSAGE = "Status must be different error message";
+    public static final int DEFAULT_PAGE = 1;
+    public static final int DEFAULT_SIZE = 10;
 }

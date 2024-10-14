@@ -1,10 +1,15 @@
 package com.foodcourt.FoodCourtMicroservice.adapters.driven.jpa.mysql.adapter;
 
+import com.foodcourt.FoodCourtMicroservice.adapters.driven.jpa.mysql.entity.RestaurantEntity;
 import com.foodcourt.FoodCourtMicroservice.adapters.driven.jpa.mysql.mapper.IRestaurantEntityMapper;
 import com.foodcourt.FoodCourtMicroservice.adapters.driven.jpa.mysql.repository.IRestaurantRepository;
 import com.foodcourt.FoodCourtMicroservice.domain.model.Restaurant;
 import com.foodcourt.FoodCourtMicroservice.domain.spi.IRestaurantPersistencePort;
+import com.foodcourt.FoodCourtMicroservice.domain.util.PagedResult;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
+import java.util.List;
 import java.util.Optional;
 
 public class RestaurantAdapter implements IRestaurantPersistencePort {
@@ -44,5 +49,16 @@ public class RestaurantAdapter implements IRestaurantPersistencePort {
     public Optional<Restaurant> findByUserId(Long userId){
         return restaurantRepository.findByUserId(userId)
                 .map(restaurantEntityMapper::toModel);
+    }
+
+    @Override
+    public PagedResult<Restaurant> getAllRestaurants(Integer page, Integer size){
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<RestaurantEntity> restaurantPage = restaurantRepository.findAll(pageRequest);
+        List<Restaurant> restaurants = restaurantPage.getContent()
+                .stream()
+                .map(restaurantEntityMapper::toModel)
+                .toList();
+        return new PagedResult<>(restaurants, restaurantPage.getNumber(), restaurantPage.getSize(), restaurantPage.getTotalElements());
     }
 }

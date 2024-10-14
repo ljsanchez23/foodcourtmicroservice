@@ -8,6 +8,7 @@ import com.foodcourt.FoodCourtMicroservice.domain.model.Restaurant;
 import com.foodcourt.FoodCourtMicroservice.domain.spi.IRestaurantPersistencePort;
 import com.foodcourt.FoodCourtMicroservice.domain.spi.IUserPersistencePort;
 import com.foodcourt.FoodCourtMicroservice.domain.util.Constants;
+import com.foodcourt.FoodCourtMicroservice.domain.util.PagedResult;
 import com.foodcourt.FoodCourtMicroservice.domain.util.Validator;
 
 import java.util.Objects;
@@ -40,5 +41,17 @@ public class RestaurantUseCase implements IRestaurantServicePort {
             throw new UnauthorizedUserException(Constants.UNAUTHORIZED_USER);
         }
         restaurantPersistencePort.saveRestaurant(restaurant);
+    }
+
+    @Override
+    public PagedResult<Restaurant> listRestaurants(Integer page, Integer size){
+        int defaultPage = Constants.DEFAULT_PAGE;
+        int defaultSize = Constants.DEFAULT_SIZE;
+
+        int actualPage = (page != null) ? page : defaultPage;
+        int actualSize = (size != null) ? size : defaultSize;
+
+        return restaurantPersistencePort.getAllRestaurants(actualPage, actualSize);
+
     }
 }
