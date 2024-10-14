@@ -7,6 +7,7 @@ import com.foodcourt.FoodCourtMicroservice.domain.model.Restaurant;
 import com.foodcourt.FoodCourtMicroservice.domain.spi.IDishPersistencePort;
 import com.foodcourt.FoodCourtMicroservice.domain.spi.IRestaurantPersistencePort;
 import com.foodcourt.FoodCourtMicroservice.domain.util.Constants;
+import com.foodcourt.FoodCourtMicroservice.domain.util.UpdateDishStatus;
 import com.foodcourt.FoodCourtMicroservice.domain.util.UpdateDish;
 import com.foodcourt.FoodCourtMicroservice.domain.util.Validator;
 
@@ -55,6 +56,24 @@ public class DishUseCase implements IDishServicePort {
             dish.setDescription(updateDish.getDescription());
         }
 
+        dishPersistencePort.saveDish(dish);
+    }
+
+    @Override
+    public void updateDishStatus(Long userId, Long dishId, UpdateDishStatus updateDishStatus){
+        Long restaurantId = restaurantPersistencePort.findByUserId(userId)
+                .orElseThrow(() -> new UnauthorizedUserException(Constants.UNAUTHORIZED_USER)).getUserId();
+
+        Dish dish = dishPersistencePort.findDishById(dishId)
+                .orElseThrow(() -> new DishDoesNotExistsException(Constants.DISH_DOES_NOT_EXISTS));
+
+        if (!Objects.equals(dish.getRestaurantId(), restaurantId)) {
+            throw new UnauthorizedUserException(Constants.UNAUTHORIZED_USER);
+        }
+        if(Boolean.TRUE.equals(dish.getStatus()) == updateDishStatus.isNewStatus()){
+            throw new StatusMustBeDifferentException(Constants.STATUS_MUST_BE_DIFFERENT_ERROR_MESSAGE);
+        }
+        dish.setStatus(updateDishStatus.isNewStatus());
         dishPersistencePort.saveDish(dish);
     }
 

@@ -31,6 +31,7 @@ public class SecurityConfiguration {
                         .requestMatchers(SecurityConstants.CREATE_RESTAURANT_URL).hasRole(SecurityConstants.ADMIN_ROLE)
                         .requestMatchers(SecurityConstants.CREATE_DISH_URL).hasRole(SecurityConstants.OWNER_ROLE)
                         .requestMatchers(SecurityConstants.UPDATE_DISH_URL).hasRole(SecurityConstants.OWNER_ROLE)
+                        .requestMatchers(SecurityConstants.UPDATE_DISH_STATUS_URL).hasRole(SecurityConstants.OWNER_ROLE)
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

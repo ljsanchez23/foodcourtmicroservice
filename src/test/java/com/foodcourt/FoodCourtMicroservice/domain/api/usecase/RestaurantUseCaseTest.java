@@ -94,7 +94,7 @@ class RestaurantUseCaseTest {
 
         when(restaurantPersistencePort.findRestaurantByEin(restaurant.getEin())).thenReturn(Optional.empty());
         when(restaurantPersistencePort.findRestaurantByName(restaurant.getName())).thenReturn(Optional.empty());
-        when(userPersistencePort.getRole(userId)).thenReturn(Constants.ROLE_ADMIN); // El usuario no es propietario
+        when(userPersistencePort.getRole(userId)).thenReturn(Constants.ROLE_ADMIN);
 
         InvalidRoleException thrown = assertThrows(
                 InvalidRoleException.class,
@@ -110,7 +110,7 @@ class RestaurantUseCaseTest {
     void shouldThrowExceptionWhenUserNotAuthorized() {
         Long userId = TestConstants.USER_ID;
         Restaurant restaurant = TestDataFactory.createDefaultRestaurant();
-        restaurant.setUserId(TestConstants.DIFFERENT_USER_ID); // Otro usuario
+        restaurant.setUserId(TestConstants.DIFFERENT_USER_ID);
 
         when(restaurantPersistencePort.findRestaurantByEin(restaurant.getEin())).thenReturn(Optional.empty());
         when(restaurantPersistencePort.findRestaurantByName(restaurant.getName())).thenReturn(Optional.empty());

@@ -21,6 +21,7 @@ public class SecurityConstants {
     public static final String CREATE_RESTAURANT_URL = "/restaurant";
     public static final String CREATE_DISH_URL = "/dish";
     public static final String UPDATE_DISH_URL = "/{dishId}";
+    public static final String UPDATE_DISH_STATUS_URL = "/{dishId}/status";
 
 
     public static SecretKey getSignedKey(String secretKey){

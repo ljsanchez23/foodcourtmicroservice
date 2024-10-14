@@ -43,10 +43,10 @@ class CategoryUseCaseTest {
         Category category = TestDataFactory.createDefaultCategory();
 
         when(categoryPersistencePort.findCategoryById(category.getId()))
-                .thenReturn(Optional.of(category)); // La categoría ya existe
+                .thenReturn(Optional.of(category));
 
         categoryUseCase.saveCategory(category);
 
-        verify(categoryPersistencePort, never()).saveCategory(any(Category.class)); // No se debería guardar
+        verify(categoryPersistencePort, never()).saveCategory(any(Category.class));
     }
 }

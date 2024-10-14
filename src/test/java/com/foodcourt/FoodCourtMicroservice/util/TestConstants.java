@@ -78,4 +78,8 @@ public class TestConstants {
     public static final String SHOULD_NOT_SAVE_CATEGORY_WHEN_ALREADY_EXISTS = "Should not save category because it already" +
             "exists";
     public static final String SHOULD_NOT_THROW_EXCEPTION_ON_VALID_DISH = "Should not thrown exception on valid dish";
+    public static final String SHOULD_UPDATE_STATUS_SUCCESSFULLY = "Should update the status successfully";
+    public static final Long DIFFERENT_RESTAURANT_ID = 6L;
+    public static final String SHOULD_THROW_EXCEPTION_WHEN_DISH_IS_FROM_OTHER_RESTAURANT = "Should throw exception when dish belongs to a different restaurant";
+    public static final String SHOULD_THROW_EXCEPTION_WHEN_STATUS_IS_THE_SAME = "Should throw exception when the new status is the same as the current status";
 }

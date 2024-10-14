@@ -3,12 +3,14 @@ package com.foodcourt.FoodCourtMicroservice.domain.api.usecase;
 import com.foodcourt.FoodCourtMicroservice.domain.api.impl.DishUseCase;
 import com.foodcourt.FoodCourtMicroservice.domain.exception.DishAlreadyExistsException;
 import com.foodcourt.FoodCourtMicroservice.domain.exception.DishDoesNotExistsException;
+import com.foodcourt.FoodCourtMicroservice.domain.exception.StatusMustBeDifferentException;
 import com.foodcourt.FoodCourtMicroservice.domain.exception.UnauthorizedUserException;
 import com.foodcourt.FoodCourtMicroservice.domain.model.Dish;
 import com.foodcourt.FoodCourtMicroservice.domain.spi.IDishPersistencePort;
 import com.foodcourt.FoodCourtMicroservice.domain.spi.IRestaurantPersistencePort;
 import com.foodcourt.FoodCourtMicroservice.domain.util.Constants;
 import com.foodcourt.FoodCourtMicroservice.domain.util.UpdateDish;
+import com.foodcourt.FoodCourtMicroservice.domain.util.UpdateDishStatus;
 import com.foodcourt.FoodCourtMicroservice.util.TestConstants;
 import com.foodcourt.FoodCourtMicroservice.util.TestDataFactory;
 import org.junit.jupiter.api.DisplayName;
@@ -94,7 +96,7 @@ class DishUseCaseTest {
 
         when(dishPersistencePort.existsByName(dish.getName())).thenReturn(false);
         when(restaurantPersistencePort.findById(dish.getRestaurantId()))
-                .thenReturn(Optional.of(TestDataFactory.createRestaurantOwnedBy(2L))); // Otro propietario
+                .thenReturn(Optional.of(TestDataFactory.createRestaurantOwnedBy(2L)));
 
         UnauthorizedUserException thrown = assertThrows(
                 UnauthorizedUserException.class,
@@ -136,7 +138,7 @@ class DishUseCaseTest {
 
         when(dishPersistencePort.findDishById(dishId)).thenReturn(Optional.of(dish));
         when(restaurantPersistencePort.findByUserId(TestConstants.USER_ID))
-                .thenReturn(Optional.of(TestDataFactory.createRestaurantOwnedBy(2L))); // Otro propietario
+                .thenReturn(Optional.of(TestDataFactory.createRestaurantOwnedBy(2L)));
 
         UnauthorizedUserException thrown = assertThrows(
                 UnauthorizedUserException.class,
@@ -182,7 +184,7 @@ class DishUseCaseTest {
         UpdateDish updateDish = new UpdateDish();
 
         when(restaurantPersistencePort.findByUserId(userId))
-                .thenReturn(Optional.of(TestDataFactory.createRestaurantOwnedBy(differentOwnerId))); // Usuario diferente
+                .thenReturn(Optional.of(TestDataFactory.createRestaurantOwnedBy(differentOwnerId)));
         when(dishPersistencePort.findDishById(dishId))
                 .thenReturn(Optional.of(dish));
 
@@ -204,7 +206,7 @@ class DishUseCaseTest {
         UpdateDish updateDish = new UpdateDish();
 
         when(restaurantPersistencePort.findByUserId(userId))
-                .thenReturn(Optional.empty()); // Usuario no autorizado
+                .thenReturn(Optional.empty());
 
         UnauthorizedUserException thrown = assertThrows(
                 UnauthorizedUserException.class,
@@ -213,5 +215,74 @@ class DishUseCaseTest {
 
         assertEquals(Constants.UNAUTHORIZED_USER, thrown.getMessage());
         verify(dishPersistencePort, never()).saveDish(any(Dish.class));
+    }
+
+    @Test
+    @DisplayName(TestConstants.SHOULD_UPDATE_STATUS_SUCCESSFULLY)
+    void shouldUpdateDishStatusSuccessfully() {
+        Long userId = TestConstants.USER_ID;
+        Long dishId = TestConstants.DISH_ID;
+        UpdateDishStatus updateDishStatus = new UpdateDishStatus(true);
+
+        Dish dish = TestDataFactory.createDefaultDish();
+        dish.setStatus(false);
+
+        when(restaurantPersistencePort.findByUserId(userId))
+                .thenReturn(Optional.of(TestDataFactory.createRestaurantOwnedBy(userId)));
+        when(dishPersistencePort.findDishById(dishId))
+                .thenReturn(Optional.of(dish));
+
+        dishUseCase.updateDishStatus(userId, dishId, updateDishStatus);
+
+        assertTrue(dish.getStatus());
+        verify(dishPersistencePort).saveDish(dish);
+    }
+
+    @Test
+    @DisplayName(TestConstants.SHOULD_THROW_EXCEPTION_WHEN_DISH_IS_FROM_OTHER_RESTAURANT)
+    void shouldThrowExceptionWhenDishBelongsToDifferentRestaurant() {
+        Long userId = TestConstants.USER_ID;
+        Long dishId = TestConstants.DISH_ID;
+        UpdateDishStatus updateDishStatus = new UpdateDishStatus(true);
+
+        Dish dish = TestDataFactory.createDefaultDish();
+        dish.setRestaurantId(TestConstants.DIFFERENT_RESTAURANT_ID);
+
+        when(restaurantPersistencePort.findByUserId(userId))
+                .thenReturn(Optional.of(TestDataFactory.createRestaurantOwnedBy(userId)));
+        when(dishPersistencePort.findDishById(dishId))
+                .thenReturn(Optional.of(dish));
+
+        UnauthorizedUserException thrown = assertThrows(
+                UnauthorizedUserException.class,
+                () -> dishUseCase.updateDishStatus(userId, dishId, updateDishStatus)
+        );
+
+        assertEquals(Constants.UNAUTHORIZED_USER, thrown.getMessage());
+        verify(dishPersistencePort, never()).saveDish(dish);
+    }
+
+    @Test
+    @DisplayName(TestConstants.SHOULD_THROW_EXCEPTION_WHEN_STATUS_IS_THE_SAME)
+    void shouldThrowExceptionWhenNewStatusIsSameAsCurrentStatus() {
+        Long userId = TestConstants.USER_ID;
+        Long dishId = TestConstants.DISH_ID;
+        UpdateDishStatus updateDishStatus = new UpdateDishStatus(true);
+
+        Dish dish = TestDataFactory.createDefaultDish();
+        dish.setStatus(true);
+
+        when(restaurantPersistencePort.findByUserId(userId))
+                .thenReturn(Optional.of(TestDataFactory.createRestaurantOwnedBy(userId)));
+        when(dishPersistencePort.findDishById(dishId))
+                .thenReturn(Optional.of(dish));
+
+        StatusMustBeDifferentException thrown = assertThrows(
+                StatusMustBeDifferentException.class,
+                () -> dishUseCase.updateDishStatus(userId, dishId, updateDishStatus)
+        );
+
+        assertEquals(Constants.STATUS_MUST_BE_DIFFERENT_ERROR_MESSAGE, thrown.getMessage());
+        verify(dishPersistencePort, never()).saveDish(dish);
     }
 }

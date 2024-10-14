@@ -6,7 +6,7 @@ import com.foodcourt.FoodCourtMicroservice.domain.util.UpdateDish;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UpdateDishRequestImpl implements IUpdateDishRequestMapper {
+public class IUpdateDishRequestMapperImpl implements IUpdateDishRequestMapper {
     @Override
     public UpdateDish toModel(UpdateDishRequest updateDishRequest) {
         if(updateDishRequest == null){
