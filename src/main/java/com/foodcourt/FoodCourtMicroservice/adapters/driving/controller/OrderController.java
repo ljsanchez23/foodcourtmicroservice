@@ -1,6 +1,8 @@
 package com.foodcourt.FoodCourtMicroservice.adapters.driving.controller;
 
+import com.foodcourt.FoodCourtMicroservice.adapters.driving.dto.request.AssignOrderRequest;
 import com.foodcourt.FoodCourtMicroservice.adapters.driving.dto.request.OrderRequest;
+import com.foodcourt.FoodCourtMicroservice.adapters.driving.mapper.IAssignOrderRequestMapper;
 import com.foodcourt.FoodCourtMicroservice.adapters.driving.mapper.IOrderRequestMapper;
 import com.foodcourt.FoodCourtMicroservice.configuration.security.jwt.JwtValidate;
 import com.foodcourt.FoodCourtMicroservice.adapters.util.AdaptersConstants;
@@ -26,6 +28,7 @@ public class OrderController {
 
     private final IOrderServicePort orderServicePort;
     private final IOrderRequestMapper orderRequestMapper;
+    private final IAssignOrderRequestMapper assignOrderRequestMapper;
 
     @Operation(summary = AdaptersConstants.CREATE_ORDER_ENDPOINT_SUMMARY, description = AdaptersConstants.CREATE_ORDER_ENDPOINT_DESCRIPTION)
     @ApiResponses(value = {
@@ -64,5 +67,15 @@ public class OrderController {
         PagedResult<Order> orders = orderServicePort.listOrders(userId, page, size, status);
 
         return ResponseEntity.ok(orders);
+    }
+
+    @PutMapping(AdaptersConstants.ASSIGN_ORDER_ENDPOINT_URL)
+    public ResponseEntity<Void> assignOrder(@PathVariable Long orderId, @RequestBody AssignOrderRequest assignOrderRequest,
+                                            HttpServletRequest request){
+        Claims claims = JwtValidate.JwtValidation(request);
+        Long userId = claims.get(AdaptersConstants.USER_ID_FROM_TOKEN, Long.class);
+        String status = assignOrderRequestMapper.extractNewStatusFromRequest(assignOrderRequest);
+        orderServicePort.assignOrder(orderId, userId, status);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

@@ -2,7 +2,10 @@ package com.foodcourt.FoodCourtMicroservice.domain.api.usecase;
 
 import com.foodcourt.FoodCourtMicroservice.adapters.util.AdaptersConstants;
 import com.foodcourt.FoodCourtMicroservice.domain.api.impl.OrderUseCase;
+import com.foodcourt.FoodCourtMicroservice.domain.exception.NoEmployeeAuthentifiedException;
 import com.foodcourt.FoodCourtMicroservice.domain.exception.OrderAlreadyInProgressException;
+import com.foodcourt.FoodCourtMicroservice.domain.exception.OrderDoesNotExistsException;
+import com.foodcourt.FoodCourtMicroservice.domain.exception.UserNotAuthorizedException;
 import com.foodcourt.FoodCourtMicroservice.domain.model.Order;
 import com.foodcourt.FoodCourtMicroservice.domain.model.Restaurant;
 import com.foodcourt.FoodCourtMicroservice.domain.spi.IOrderPersistencePort;
@@ -97,4 +100,83 @@ class OrderUseCaseTest {
         verify(orderPersistencePort).findOrdersByRestaurantIdAndStatus(restaurantId, status, page, size);
     }
 
+    @Test
+    @DisplayName(TestConstants.SHOULD_THROWN_EXCEPTION_WHEN_ORDER_DOES_NOT_EXISTS)
+    void shouldThrowExceptionWhenOrderDoesNotExist() {
+        Long orderId = TestConstants.ORDER_ID;
+        Long userId = TestConstants.USER_ID;
+        String status = TestConstants.ASSIGNED_STATUS;
+
+        when(orderPersistencePort.existsById(orderId)).thenReturn(false);
+
+        OrderDoesNotExistsException exception = assertThrows(OrderDoesNotExistsException.class, () -> {
+            orderUseCase.assignOrder(orderId, userId, status);
+        });
+
+        assertEquals(Constants.ORDER_DOES_NOT_EXISTS_ERROR_MESSAGE, exception.getMessage());
+        verify(orderPersistencePort, times(1)).existsById(orderId);
+        verify(orderPersistencePort, never()).assignOrder(anyLong(), anyLong(), anyString());
+    }
+
+    @Test
+    @DisplayName(TestConstants.SHOULD_THROWN_EXCEPTION_WHEN_USER_IS_NOT_AUTHENTICATED)
+    void shouldThrowExceptionWhenUserIsNotAuthenticated() {
+        Long orderId = TestConstants.ORDER_ID;
+        String status = TestConstants.ASSIGNED_STATUS;
+
+        when(orderPersistencePort.existsById(orderId)).thenReturn(true);
+
+        NoEmployeeAuthentifiedException exception = assertThrows(NoEmployeeAuthentifiedException.class, () -> {
+            orderUseCase.assignOrder(orderId, null, status);
+        });
+
+        assertEquals(Constants.EMPLOYEE_IS_NOT_AUTHENTICATED, exception.getMessage());
+        verify(orderPersistencePort, times(1)).existsById(orderId);
+        verify(orderPersistencePort, never()).assignOrder(anyLong(), anyLong(), anyString());
+    }
+
+    @Test
+    @DisplayName(TestConstants.SHOULD_THROWN_EXCEPTION_WHEN_USER_IS_NOT_A_RESTAURANT_EMPLOYEE)
+    void shouldThrowExceptionWhenUserNotEmployeeOfRestaurant() {
+        Long orderId = TestConstants.ORDER_ID;
+        Long userId = TestConstants.USER_ID;
+        String status = TestConstants.ASSIGNED_STATUS;
+        Order order = new Order();
+        order.setRestaurantId(TestConstants.RESTAURANT_ID);
+
+        when(orderPersistencePort.existsById(orderId)).thenReturn(true);
+        when(orderPersistencePort.findById(orderId)).thenReturn(Optional.of(order));
+        when(restaurantPersistencePort.isEmployeeAssigned(order.getRestaurantId(), userId)).thenReturn(false);
+
+        UserNotAuthorizedException exception = assertThrows(UserNotAuthorizedException.class, () -> {
+            orderUseCase.assignOrder(orderId, userId, status);
+        });
+
+        assertEquals(Constants.USER_IS_NOT_EMPLOYEE_OF_RESTAURANT, exception.getMessage());
+        verify(orderPersistencePort, times(1)).existsById(orderId);
+        verify(orderPersistencePort, times(1)).findById(orderId);
+        verify(restaurantPersistencePort, times(1)).isEmployeeAssigned(order.getRestaurantId(), userId);
+        verify(orderPersistencePort, never()).assignOrder(anyLong(), anyLong(), anyString());
+    }
+
+    @Test
+    @DisplayName(TestConstants.SHOULD_ASSIGN_ORDER_WHEN_VALIDATION_PASS)
+    void shouldAssignOrderWhenValidationsPass() {
+        Long orderId = TestConstants.ORDER_ID;
+        Long userId = TestConstants.USER_ID;
+        String status = TestConstants.ASSIGNED_STATUS;
+        Order order = new Order();
+        order.setRestaurantId(TestConstants.RESTAURANT_ID);
+
+        when(orderPersistencePort.existsById(orderId)).thenReturn(true);
+        when(orderPersistencePort.findById(orderId)).thenReturn(Optional.of(order));
+        when(restaurantPersistencePort.isEmployeeAssigned(order.getRestaurantId(), userId)).thenReturn(true);
+
+        orderUseCase.assignOrder(orderId, userId, status);
+
+        verify(orderPersistencePort, times(1)).existsById(orderId);
+        verify(orderPersistencePort, times(1)).findById(orderId);
+        verify(restaurantPersistencePort, times(1)).isEmployeeAssigned(order.getRestaurantId(), userId);
+        verify(orderPersistencePort, times(1)).assignOrder(orderId, userId, status);
+    }
 }

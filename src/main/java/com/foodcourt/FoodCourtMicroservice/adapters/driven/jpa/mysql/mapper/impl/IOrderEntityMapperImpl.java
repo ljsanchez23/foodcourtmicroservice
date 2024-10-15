@@ -76,7 +76,8 @@ public class IOrderEntityMapperImpl implements IOrderEntityMapper {
                 dishes,
                 dishQuantities,
                 orderEntity.getStatus(),
-                orderEntity.getCustomerId()
+                orderEntity.getCustomerId(),
+                null
         );
     }
 }

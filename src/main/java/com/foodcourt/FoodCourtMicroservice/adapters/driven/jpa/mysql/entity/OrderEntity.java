@@ -27,4 +27,5 @@ public class OrderEntity {
     private List<OrderDishEntity> orderDishes = new ArrayList<>();
     private String status;
     private Long customerId;
+    private Long employeeIdAssigned;
 }

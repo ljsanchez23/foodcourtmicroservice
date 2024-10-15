@@ -95,4 +95,5 @@ public class AdaptersConstants {
     public static final String IS_EMPLOYEE_ASSIGNED_SQL_QUERY = "SELECT CASE WHEN COUNT(r) > 0 THEN TRUE ELSE FALSE END " +
             "FROM RestaurantEntity r JOIN r.employeesId e " +
             "WHERE r.id = :restaurantId AND e = :employeeId";
+    public static final String ASSIGN_ORDER_ENDPOINT_URL = "assign/{orderId}";
 }

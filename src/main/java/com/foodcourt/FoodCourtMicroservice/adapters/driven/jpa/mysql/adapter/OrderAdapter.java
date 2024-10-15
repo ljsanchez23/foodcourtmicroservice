@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 public class OrderAdapter implements IOrderPersistencePort {
@@ -37,5 +38,25 @@ public class OrderAdapter implements IOrderPersistencePort {
                 .map(orderEntityMapper::toModel)
                 .toList();
         return new PagedResult<>(orders, orderPage.getNumber(), orderPage.getSize(), orderPage.getTotalElements());
+    }
+
+    @Override
+    public void assignOrder(Long orderId, Long userId, String status) {
+        orderRepository.findById(orderId).ifPresent(orderEntity -> {
+            orderEntity.setEmployeeIdAssigned(userId);
+            orderEntity.setStatus(status);
+            orderRepository.save(orderEntity);
+        });
+    }
+
+    @Override
+    public Boolean existsById(Long id) {
+        return orderRepository.existsById(id);
+    }
+
+    @Override
+    public Optional<Order> findById(Long id) {
+        return orderRepository.findById(id)
+                .map(orderEntityMapper::toModel);
     }
 }

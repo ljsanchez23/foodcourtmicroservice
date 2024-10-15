@@ -10,16 +10,17 @@ public class Order {
     private Map<Long, Integer> dishQuantities;
     private String status;
     private Long customerId;
+    private Long employeeIdAssigned;
 
-    public Order(Long id, Long restaurantId, List<Dish> dishes, Map<Long, Integer> dishQuantities, String status, Long customerId) {
+    public Order(Long id, Long restaurantId, List<Dish> dishes, Map<Long, Integer> dishQuantities, String status, Long customerId, Long employeeIdAssigned) {
         this.id = id;
         this.restaurantId = restaurantId;
         this.dishes = dishes;
         this.dishQuantities = dishQuantities;
         this.status = status;
         this.customerId = customerId;
+        this.employeeIdAssigned = employeeIdAssigned;
     }
-
     public Order(){}
 
     public Long getId() {
@@ -68,5 +69,13 @@ public class Order {
 
     public void setCustomerId(Long customerId) {
         this.customerId = customerId;
+    }
+
+    public Long getEmployeeIdAssigned() {
+        return employeeIdAssigned;
+    }
+
+    public void setEmployeeIdAssigned(Long employeeIdAssigned) {
+        this.employeeIdAssigned = employeeIdAssigned;
     }
 }

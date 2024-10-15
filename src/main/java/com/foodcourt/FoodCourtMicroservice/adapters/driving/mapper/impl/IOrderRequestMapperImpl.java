@@ -27,6 +27,7 @@ public class IOrderRequestMapperImpl implements IOrderRequestMapper {
                 }).toList(),
                 orderRequest.getDishQuantities(),
                 Constants.PENDING_STATUS,
+                null,
                 null
         );
     }

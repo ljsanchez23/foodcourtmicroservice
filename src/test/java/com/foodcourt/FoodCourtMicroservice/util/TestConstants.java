@@ -96,4 +96,10 @@ public class TestConstants {
     public static final String SHOULD_THROW_EXCEPTION_WHEN_ORDER_ALREADY_IN_PROGRESS = "Should throw exception when order already" +
             "in progress";
     public static final String SHOULD_SAVE_ORDER_WHEN_NO_ORDER_IS_IN_PROGRESS = "Should save order when no orders are in progress";
+    public static final Long ORDER_ID = 1L;
+    public static final String ASSIGNED_STATUS = "assigned";
+    public static final String SHOULD_THROWN_EXCEPTION_WHEN_ORDER_DOES_NOT_EXISTS = "Should throw exception when order does not exist";
+    public static final String SHOULD_THROWN_EXCEPTION_WHEN_USER_IS_NOT_AUTHENTICATED = "Should throw exception when user is not authenticated";
+    public static final String SHOULD_THROWN_EXCEPTION_WHEN_USER_IS_NOT_A_RESTAURANT_EMPLOYEE = "Should throw exception when user is not an employee of the restaurant";
+    public static final String SHOULD_ASSIGN_ORDER_WHEN_VALIDATION_PASS = "Should assign order to user when all validations pass";
 }

@@ -45,4 +45,8 @@ public class Constants {
     public static final String READY_STATUS = "ready";
     public static final String ORDER_ALREADY_IN_PROCESS = "Order already in process";
     public static final String EMPLOYEE_ALREADY_ASSIGNED = "The employee has already been assigned";
+    public static final String ORDER_DOES_NOT_EXISTS_ERROR_MESSAGE = "The order you're trying to get assigned to does not " +
+            "exists";
+    public static final String EMPLOYEE_IS_NOT_AUTHENTICATED = "Employee has not been authenticated, please login";
+    public static final String USER_IS_NOT_EMPLOYEE_OF_RESTAURANT = "This employee is not employee of this restaurant";
 }
