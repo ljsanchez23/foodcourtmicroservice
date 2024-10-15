@@ -6,6 +6,7 @@ import com.foodcourt.FoodCourtMicroservice.configuration.security.jwt.JwtValidat
 import com.foodcourt.FoodCourtMicroservice.adapters.util.AdaptersConstants;
 import com.foodcourt.FoodCourtMicroservice.domain.api.IOrderServicePort;
 import com.foodcourt.FoodCourtMicroservice.domain.model.Order;
+import com.foodcourt.FoodCourtMicroservice.domain.util.PagedResult;
 import io.jsonwebtoken.Claims;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -16,10 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(AdaptersConstants.ORDER_CONTROLLER_URL)
@@ -46,5 +44,25 @@ public class OrderController {
         orderServicePort.createOrder(userId, order);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @Operation(summary = AdaptersConstants.LIST_ORDERS_ENDPOINT_SUMMARY, description = AdaptersConstants.LIST_ORDERS_ENDPOINT_DESCRIPTION)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = AdaptersConstants.OK, description = AdaptersConstants.LIST_ORDERS_OK_DESCRIPTION),
+            @ApiResponse(responseCode = AdaptersConstants.BAD_REQUEST, description = AdaptersConstants.LIST_ORDERS_BAD_REQUEST_DESCRIPTION),
+            @ApiResponse(responseCode = AdaptersConstants.UNAUTHORIZED, description = AdaptersConstants.LIST_ORDER_UNAUTHORIZED_DESCRIPTION)
+    })
+    @GetMapping
+    public ResponseEntity<PagedResult<Order>> listOrders(
+            @RequestParam(value = AdaptersConstants.PAGE_PARAM_VALUE, required = false) Integer page,
+            @RequestParam(value = AdaptersConstants.SIZE_PARAM_VALUE, required = false) Integer size,
+            @RequestParam(value = AdaptersConstants.STATUS_PARAM_VALUE, required = false) String status,
+            HttpServletRequest request) {
+        Claims claims = JwtValidate.JwtValidation(request);
+        Long userId = claims.get(AdaptersConstants.USER_ID_FROM_TOKEN, Long.class);
+
+        PagedResult<Order> orders = orderServicePort.listOrders(userId, page, size, status);
+
+        return ResponseEntity.ok(orders);
     }
 }

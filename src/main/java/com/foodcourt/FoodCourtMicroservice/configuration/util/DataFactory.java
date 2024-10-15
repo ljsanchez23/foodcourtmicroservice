@@ -3,6 +3,8 @@ package com.foodcourt.FoodCourtMicroservice.configuration.util;
 import com.foodcourt.FoodCourtMicroservice.adapters.driven.jpa.mysql.entity.CategoryEntity;
 import com.foodcourt.FoodCourtMicroservice.adapters.driven.jpa.mysql.entity.RestaurantEntity;
 
+import java.util.ArrayList;
+
 public class DataFactory {
     public static final Long CATEGORY_ID = 1L;
     public static final String CATEGORY_NAME = "Basic food";
@@ -25,10 +27,10 @@ public class DataFactory {
     public static final Long OWNER_USER_ID = 2L;
 
     public static final RestaurantEntity ADMIN_RESTAURANT = new RestaurantEntity(RESTAURANT_ID, RESTAURANT_NAME, EIN, ADDRESS,
-            PHONE, URL_LOGO, USER_ID, null);
+            PHONE, URL_LOGO, USER_ID, null, new ArrayList<>());
 
     public static final RestaurantEntity OWNER_RESTAURANT = new RestaurantEntity(OWNER_RESTAURANT_ID, OWNER_RESTAURANT_NAME,
-            OWNER_EIN, OWNER_ADDRESS, OWNER_PHONE, OWNER_URL_LOGO, OWNER_USER_ID, null);
+            OWNER_EIN, OWNER_ADDRESS, OWNER_PHONE, OWNER_URL_LOGO, OWNER_USER_ID, null, new ArrayList<>());
 
 
     public static final CategoryEntity DEFAULT_CATEGORY = new CategoryEntity(CATEGORY_ID, CATEGORY_NAME, CATEGORY_DESCRIPTION);

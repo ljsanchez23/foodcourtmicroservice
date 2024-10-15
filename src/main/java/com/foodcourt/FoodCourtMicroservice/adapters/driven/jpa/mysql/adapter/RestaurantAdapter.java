@@ -28,6 +28,21 @@ public class RestaurantAdapter implements IRestaurantPersistencePort {
     }
 
     @Override
+    public void saveEmployee(Long restaurantId, Long employeeId) {
+        restaurantRepository.saveEmployee(restaurantId, employeeId);
+    }
+
+    @Override
+    public Boolean existsById(Long id) {
+        return restaurantRepository.existsById(id);
+    }
+
+    @Override
+    public Boolean isEmployeeAssigned(Long restaurantId, Long employeeId) {
+        return restaurantRepository.isEmployeeAssigned(restaurantId, employeeId);
+    }
+
+    @Override
     public Optional<Restaurant> findRestaurantByEin(Integer ein) {
         return restaurantRepository.findByEin(ein)
                 .map(restaurantEntityMapper::toModel);
@@ -60,5 +75,11 @@ public class RestaurantAdapter implements IRestaurantPersistencePort {
                 .map(restaurantEntityMapper::toModel)
                 .toList();
         return new PagedResult<>(restaurants, restaurantPage.getNumber(), restaurantPage.getSize(), restaurantPage.getTotalElements());
+    }
+
+    @Override
+    public Optional<Restaurant> findRestaurantByEmployeeId(Long userId) {
+        return restaurantRepository.findByEmployeesId(userId)
+                .map(restaurantEntityMapper::toModel);
     }
 }

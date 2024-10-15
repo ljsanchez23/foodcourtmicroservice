@@ -12,4 +12,8 @@ public interface IRestaurantPersistencePort {
     Optional<Restaurant> findById(Long id);
     Optional<Restaurant> findByUserId(Long userId);
     PagedResult<Restaurant> getAllRestaurants(Integer page, Integer size);
+    Optional<Restaurant> findRestaurantByEmployeeId(Long userId);
+    void saveEmployee(Long restaurantId, Long employeeId);
+    Boolean existsById(Long id);
+    Boolean isEmployeeAssigned(Long restaurantId, Long employeeId);
 }

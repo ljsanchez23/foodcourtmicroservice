@@ -1,9 +1,7 @@
 package com.foodcourt.FoodCourtMicroservice.domain.api.usecase;
 
 import com.foodcourt.FoodCourtMicroservice.domain.api.impl.RestaurantUseCase;
-import com.foodcourt.FoodCourtMicroservice.domain.exception.RestaurantAlreadyExistsException;
-import com.foodcourt.FoodCourtMicroservice.domain.exception.InvalidRoleException;
-import com.foodcourt.FoodCourtMicroservice.domain.exception.UnauthorizedUserException;
+import com.foodcourt.FoodCourtMicroservice.domain.exception.*;
 import com.foodcourt.FoodCourtMicroservice.domain.model.Restaurant;
 import com.foodcourt.FoodCourtMicroservice.domain.spi.IRestaurantPersistencePort;
 import com.foodcourt.FoodCourtMicroservice.domain.spi.IUserPersistencePort;
@@ -141,5 +139,56 @@ class RestaurantUseCaseTest {
 
         assertEquals(pagedResult, result);
         verify(restaurantPersistencePort).getAllRestaurants(defaultPage, defaultSize);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenRestaurantNotFound() {
+        Long restaurantId = TestConstants.RESTAURANT_ID;
+        Long employeeId = TestConstants.EMPLOYEE_ID;
+
+        when(restaurantPersistencePort.existsById(restaurantId)).thenReturn(false);
+
+        RestaurantNotFoundException exception = assertThrows(RestaurantNotFoundException.class, () -> {
+            restaurantUseCase.addEmployeeToRestaurant(restaurantId, employeeId);
+        });
+
+        assertEquals(Constants.RESTAURANT_NOT_FOUND, exception.getMessage());
+        verify(restaurantPersistencePort).existsById(restaurantId);
+        verify(restaurantPersistencePort, never()).saveEmployee(anyLong(), anyLong());
+    }
+
+    @Test
+    @DisplayName(TestConstants.SHOULD_THROW_EXCEPTION_WHEN_EMPLOYEE_ASSIGNED)
+    void shouldThrowExceptionWhenEmployeeAlreadyAssigned() {
+        Long restaurantId = TestConstants.RESTAURANT_ID;
+        Long employeeId = TestConstants.EMPLOYEE_ID;
+
+        when(restaurantPersistencePort.existsById(restaurantId)).thenReturn(true);
+        when(restaurantPersistencePort.isEmployeeAssigned(restaurantId, employeeId)).thenReturn(true);
+
+        EmployeeAlreadyAssignedException exception = assertThrows(EmployeeAlreadyAssignedException.class, () -> {
+            restaurantUseCase.addEmployeeToRestaurant(restaurantId, employeeId);
+        });
+
+        assertEquals(Constants.EMPLOYEE_ALREADY_ASSIGNED, exception.getMessage());
+        verify(restaurantPersistencePort).existsById(restaurantId);
+        verify(restaurantPersistencePort).isEmployeeAssigned(restaurantId, employeeId);
+        verify(restaurantPersistencePort, never()).saveEmployee(anyLong(), anyLong());
+    }
+
+    @Test
+    @DisplayName(TestConstants.SHOULD_SAVE_EMPLOYEE_WITH_RIGHT_PARAMS)
+    void shouldSaveEmployeeWhenConditionsAreMet() {
+        Long restaurantId = TestConstants.RESTAURANT_ID;
+        Long employeeId = TestConstants.EMPLOYEE_ID;
+
+        when(restaurantPersistencePort.existsById(restaurantId)).thenReturn(true);
+        when(restaurantPersistencePort.isEmployeeAssigned(restaurantId, employeeId)).thenReturn(false);
+
+        restaurantUseCase.addEmployeeToRestaurant(restaurantId, employeeId);
+
+        verify(restaurantPersistencePort).existsById(restaurantId);
+        verify(restaurantPersistencePort).isEmployeeAssigned(restaurantId, employeeId);
+        verify(restaurantPersistencePort).saveEmployee(restaurantId, employeeId);
     }
 }

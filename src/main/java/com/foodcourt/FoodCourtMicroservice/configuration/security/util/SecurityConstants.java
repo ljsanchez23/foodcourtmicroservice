@@ -24,7 +24,7 @@ public class SecurityConstants {
     public static final String UPDATE_DISH_STATUS_URL = "/dish/{dishId}/status";
     public static final String CUSTOMER_ROLE = "CUSTOMER";
     public static final String ORDER_URL = "/order";
-
+    public static final String EMPLOYEE_ROLE = "EMPLOYEE";
 
 
     public static SecretKey getSignedKey(String secretKey){

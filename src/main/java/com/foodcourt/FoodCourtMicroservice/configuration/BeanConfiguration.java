@@ -80,6 +80,6 @@ public class BeanConfiguration {
 
     @Bean
     public IOrderServicePort orderServicePort(){
-        return new OrderUseCase(orderPersistencePort());
+        return new OrderUseCase(orderPersistencePort(), restaurantPersistencePort());
     }
 }

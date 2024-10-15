@@ -1,9 +1,7 @@
 package com.foodcourt.FoodCourtMicroservice.domain.api.impl;
 
 import com.foodcourt.FoodCourtMicroservice.domain.api.IRestaurantServicePort;
-import com.foodcourt.FoodCourtMicroservice.domain.exception.InvalidRoleException;
-import com.foodcourt.FoodCourtMicroservice.domain.exception.RestaurantAlreadyExistsException;
-import com.foodcourt.FoodCourtMicroservice.domain.exception.UnauthorizedUserException;
+import com.foodcourt.FoodCourtMicroservice.domain.exception.*;
 import com.foodcourt.FoodCourtMicroservice.domain.model.Restaurant;
 import com.foodcourt.FoodCourtMicroservice.domain.spi.IRestaurantPersistencePort;
 import com.foodcourt.FoodCourtMicroservice.domain.spi.IUserPersistencePort;
@@ -47,11 +45,20 @@ public class RestaurantUseCase implements IRestaurantServicePort {
     public PagedResult<Restaurant> listRestaurants(Integer page, Integer size){
         int defaultPage = Constants.DEFAULT_PAGE;
         int defaultSize = Constants.DEFAULT_SIZE;
-
         int actualPage = (page != null) ? page : defaultPage;
         int actualSize = (size != null) ? size : defaultSize;
-
         return restaurantPersistencePort.getAllRestaurants(actualPage, actualSize);
 
+    }
+
+    @Override
+    public void addEmployeeToRestaurant(Long restaurantId, Long employeeId) {
+        if (Boolean.FALSE.equals(restaurantPersistencePort.existsById(restaurantId))) {
+            throw new RestaurantNotFoundException(Constants.RESTAURANT_NOT_FOUND);
+        }
+        if (Boolean.TRUE.equals(restaurantPersistencePort.isEmployeeAssigned(restaurantId, employeeId))) {
+            throw new EmployeeAlreadyAssignedException(Constants.EMPLOYEE_ALREADY_ASSIGNED);
+        }
+        restaurantPersistencePort.saveEmployee(restaurantId, employeeId);
     }
 }

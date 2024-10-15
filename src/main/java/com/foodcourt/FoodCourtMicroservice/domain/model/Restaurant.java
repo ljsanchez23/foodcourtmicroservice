@@ -11,8 +11,9 @@ public class Restaurant {
     private String urlLogo;
     private Long userId;
     private List<Dish> dishes;
+    private List<Long> employeesId;
 
-    public Restaurant(Long id, String name, Integer ein, String address, String phone, String urlLogo, Long userId, List<Dish> dishes) {
+    public Restaurant(Long id, String name, Integer ein, String address, String phone, String urlLogo, Long userId, List<Dish> dishes, List<Long> employeesId) {
         this.id = id;
         this.name = name;
         this.ein = ein;
@@ -21,7 +22,9 @@ public class Restaurant {
         this.urlLogo = urlLogo;
         this.userId = userId;
         this.dishes = dishes;
+        this.employeesId = employeesId;
     }
+
     public Restaurant(){}
 
     public Long getId() {
@@ -86,5 +89,13 @@ public class Restaurant {
 
     public void setDishes(List<Dish> dishes) {
         this.dishes = dishes;
+    }
+
+    public List<Long> getEmployeesId() {
+        return employeesId;
+    }
+
+    public void setEmployeesId(List<Long> employeesId) {
+        this.employeesId = employeesId;
     }
 }

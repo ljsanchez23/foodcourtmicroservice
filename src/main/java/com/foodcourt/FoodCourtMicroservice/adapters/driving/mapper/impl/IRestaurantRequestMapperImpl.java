@@ -5,6 +5,8 @@ import com.foodcourt.FoodCourtMicroservice.adapters.driving.mapper.IRestaurantRe
 import com.foodcourt.FoodCourtMicroservice.domain.model.Restaurant;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 @Component
 public class IRestaurantRequestMapperImpl implements IRestaurantRequestMapper {
     @Override
@@ -20,6 +22,6 @@ public class IRestaurantRequestMapperImpl implements IRestaurantRequestMapper {
         String urlLogo = restaurantRequest.getUrlLogo();
         Long userId = restaurantRequest.getUserId();
 
-        return new Restaurant(id, name, ein, address, phone, urlLogo, userId, null);
+        return new Restaurant(id, name, ein, address, phone, urlLogo, userId, null, new ArrayList<>());
     }
 }

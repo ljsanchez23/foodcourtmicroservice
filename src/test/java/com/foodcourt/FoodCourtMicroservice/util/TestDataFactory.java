@@ -5,13 +5,14 @@ import com.foodcourt.FoodCourtMicroservice.domain.model.Dish;
 import com.foodcourt.FoodCourtMicroservice.domain.model.Restaurant;
 import com.foodcourt.FoodCourtMicroservice.domain.util.PagedResult;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class TestDataFactory {
     public static Restaurant createDefaultRestaurant(){
-        return new Restaurant(TestConstants.RESTAURANT_ID, TestConstants.RESTAURANT_NAME, TestConstants.RESTAURANT_EIN, TestConstants.RESTAURANT_ADDRESS, TestConstants.RESTAURANT_PHONE, TestConstants.RESTAURANT_URL_LOGO, TestConstants.RESTAURANT_USER_ID, null);
+        return new Restaurant(TestConstants.RESTAURANT_ID, TestConstants.RESTAURANT_NAME, TestConstants.RESTAURANT_EIN, TestConstants.RESTAURANT_ADDRESS, TestConstants.RESTAURANT_PHONE, TestConstants.RESTAURANT_URL_LOGO, TestConstants.RESTAURANT_USER_ID, null, new ArrayList<>());
     }
     public static Dish createDefaultDish() {
         return new Dish(
@@ -39,14 +40,15 @@ public class TestDataFactory {
                 TestConstants.RESTAURANT_PHONE,
                 TestConstants.RESTAURANT_URL_LOGO,
                 userId,
-                null
+                null,
+                new ArrayList<>()
         );
     }
 
     public static PagedResult<Restaurant> createPagedRestaurants() {
         List<Restaurant> restaurantList = Arrays.asList(
                 createDefaultRestaurant(),
-                new Restaurant(2L, "Restaurant 2", 987654321, "456 Main St", "+123456789", "https://example.com/logo2.png", 2L, null)
+                new Restaurant(2L, "Restaurant 2", 987654321, "456 Main St", "+123456789", "https://example.com/logo2.png", 2L, null, new ArrayList<>())
         );
 
         return new PagedResult<>(
@@ -71,7 +73,6 @@ public class TestDataFactory {
         );
     }
 
-    // Crear una lista de platos sin paginación
     public static List<Dish> createDishList() {
         return Arrays.asList(
                 new Dish(1L, "Dish 1", 100, "Delicious Dish 1", "https://example.com/dish1.png", true, TestConstants.CATEGORY_ID, TestConstants.RESTAURANT_ID),
@@ -79,7 +80,6 @@ public class TestDataFactory {
         );
     }
 
-    // Crear un PagedResult vacío
     public static PagedResult<Dish> createEmptyPagedResultDishes() {
         return new PagedResult<>(
                 Collections.emptyList(),

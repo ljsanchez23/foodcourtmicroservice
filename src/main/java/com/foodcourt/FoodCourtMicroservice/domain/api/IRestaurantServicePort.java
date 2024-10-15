@@ -6,4 +6,5 @@ import com.foodcourt.FoodCourtMicroservice.domain.util.PagedResult;
 public interface IRestaurantServicePort {
     void saveRestaurant(Long userId, Restaurant restaurant);
     PagedResult<Restaurant> listRestaurants(Integer page, Integer size);
+    void addEmployeeToRestaurant(Long restaurantId, Long employeeId);
 }

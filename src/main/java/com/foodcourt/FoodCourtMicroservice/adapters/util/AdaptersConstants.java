@@ -68,4 +68,31 @@ public class AdaptersConstants {
     public static final String CREATE_ORDER_BAD_REQUEST_DESCRIPTION = "If the order is not created a 400 response will be" +
             "given";
     public static final String ORDER_MAPPED_BY = "order";
+    public static final String ADD_EMPLOYEE_ENDPOINT = "/addEmployee";
+    public static final String ADD_EMPLOYEE_ENDPOINT_SUMMARY = "This endpoint is used to add an employee to the restaurant";
+    public static final String ADD_EMPLOYEE_ENDPOINT_DESCRIPTION = "This endpoint receives the information of the user when its" +
+            "created, adding the employee to the restaurant";
+    public static final String ADD_EMPLOYEE_OK_DESCRIPTION = "If the employee is added, a 200 response code will be given";
+    public static final String ADD_EMPLOYEE_BAD_REQUEST_DESCRIPTION = "If the employee is not added, a 400 response code will be" +
+            "given";
+    public static final String UNAUTHORIZED = "401";
+    public static final String LIST_ORDERS_ENDPOINT_SUMMARY = "This endpoint is used to list the orders";
+    public static final String LIST_ORDERS_ENDPOINT_DESCRIPTION = "The employees can use this endpoint to access the list of the " +
+            "orders, they can sort as well depending on the status";
+    public static final String LIST_ORDERS_OK_DESCRIPTION = "If the orders are listed a 200 response code will be given";
+    public static final String LIST_ORDERS_BAD_REQUEST_DESCRIPTION = "If the orders are not listed a 400 response code will be given";
+    public static final String LIST_ORDER_UNAUTHORIZED_DESCRIPTION = "If the authorization does not goes through a 401 response code" +
+            "will be given";
+    public static final String PAGE_PARAM_VALUE = "page";
+    public static final String SIZE_PARAM_VALUE = "size";
+    public static final String STATUS_PARAM_VALUE = "status";
+    public static final String SAVE_EMPLOYEE_SQL_QUERY = "INSERT INTO restaurant_employees (restaurant_id, employee_id) VALUES (:restaurantId, :employeeId)";
+    public static final String RESTAURANT_ID = "restaurantId";
+    public static final String EMPLOYEE_ID = "employeeId";
+    public static final String RESTAURANT_ID_COLUMN_NAME = "restaurant_id";
+    public static final String EMPLOYEE_ID_COLUMN_NAME = "employee_id";
+    public static final String RESTAURANT_EMPLOYEE_JOIN_TABLE = "restaurant_employees";
+    public static final String IS_EMPLOYEE_ASSIGNED_SQL_QUERY = "SELECT CASE WHEN COUNT(r) > 0 THEN TRUE ELSE FALSE END " +
+            "FROM RestaurantEntity r JOIN r.employeesId e " +
+            "WHERE r.id = :restaurantId AND e = :employeeId";
 }

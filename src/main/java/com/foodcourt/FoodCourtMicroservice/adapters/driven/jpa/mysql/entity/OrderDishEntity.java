@@ -16,15 +16,12 @@ public class OrderDishEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @ManyToOne
     @JoinColumn(name = AdaptersConstants.ORDER_JOIN_COLUMN, nullable = false)
     private OrderEntity order;
-
     @ManyToOne
     @JoinColumn(name = AdaptersConstants.DISH_JOIN_COLUMN, nullable = false)
     private DishEntity dish;
-
     @Column(nullable = false)
     private Integer quantity;
 }

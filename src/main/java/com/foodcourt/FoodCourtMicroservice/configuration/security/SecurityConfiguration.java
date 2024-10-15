@@ -28,7 +28,8 @@ public class SecurityConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(SecurityConstants.ORDER_URL).hasRole(SecurityConstants.CUSTOMER_ROLE)
+                        .requestMatchers(SecurityConstants.ORDER_URL).hasAnyRole(SecurityConstants.CUSTOMER_ROLE,
+                                SecurityConstants.EMPLOYEE_ROLE)
                         .requestMatchers(SecurityConstants.RESTAURANT_URL).hasAnyRole(SecurityConstants.ADMIN_ROLE,
                                 SecurityConstants.CUSTOMER_ROLE)
                         .requestMatchers(SecurityConstants.CREATE_DISH_URL).hasAnyRole(SecurityConstants.OWNER_ROLE,

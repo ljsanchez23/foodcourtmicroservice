@@ -20,15 +20,11 @@ public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @ManyToOne
     @JoinColumn(name = AdaptersConstants.ORDER_RESTAURANT_JOIN_COLUMN, nullable = false)
     private RestaurantEntity restaurant;
-
     @OneToMany(mappedBy = AdaptersConstants.ORDER_MAPPED_BY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderDishEntity> orderDishes = new ArrayList<>();
-
     private String status;
-
     private Long customerId;
 }

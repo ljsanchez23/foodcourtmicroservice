@@ -27,4 +27,11 @@ public class RestaurantEntity {
     private Long userId;
     @OneToMany(mappedBy = AdaptersConstants.RESTAURANT_DISH_RELATION, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DishEntity> dishes;
+    @ElementCollection
+    @CollectionTable(
+            name = AdaptersConstants.RESTAURANT_EMPLOYEE_JOIN_TABLE,
+            joinColumns = @JoinColumn(name = AdaptersConstants.RESTAURANT_ID_COLUMN_NAME)
+    )
+    @Column(name = AdaptersConstants.EMPLOYEE_ID_COLUMN_NAME)
+    private List<Long> employeesId;
 }

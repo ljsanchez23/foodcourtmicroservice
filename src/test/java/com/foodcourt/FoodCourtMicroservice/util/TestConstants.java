@@ -86,4 +86,14 @@ public class TestConstants {
     public static final String SHOULD_LIST_DISHES_BY_RESTAURANT = "Should list dishes by restaurant without category filter";
     public static final String SHOULD_LIST_DISHES_FILTERED = "Should list dishes by restaurant with category filter";
     public static final String SHOULD_THROW_EXCEPTION_CATEGORY_DOES_NOT_EXISTS = "Should throw CategoryDoesNotExistsException when category does not exist";
+    public static final Long EMPLOYEE_ID = 4L;
+    public static final String SHOULD_SAVE_EMPLOYEE_WITH_RIGHT_PARAMS = "This method should save the employee when the params are correct";
+    public static final String SHOULD_THROW_EXCEPTION_WHEN_EMPLOYEE_ASSIGNED = "Should throw exception when employee is already" +
+            "assigned";
+    public static final String COMPLETED_STATUS = "COMPLETED";
+    public static final Long TOTAL_ELEMENTS = 0L;
+    public static final String SHOULD_RETURN_ORDERS_PAGE_RESULT = "Should return orders page result";
+    public static final String SHOULD_THROW_EXCEPTION_WHEN_ORDER_ALREADY_IN_PROGRESS = "Should throw exception when order already" +
+            "in progress";
+    public static final String SHOULD_SAVE_ORDER_WHEN_NO_ORDER_IS_IN_PROGRESS = "Should save order when no orders are in progress";
 }
